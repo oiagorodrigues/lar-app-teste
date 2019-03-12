@@ -1,29 +1,44 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
-  </div>
+  <b-container
+    id="app"
+    fluid
+  >
+    <transition name="fade" mode="out-in">
+      <router-view :key="$router.fullPath" />
+    </transition>
+  </b-container>
 </template>
+
+<script>
+export default {
+  name: 'App',
+
+  mounted () {
+    this.$store.commit('SET_USER', localStorage.getItem('token') || {})
+  }
+}
+</script>
 
 <style lang="scss">
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+  height: 100%;
+
+  @include media-breakpoint-up(md) {
+    width: 600px;
+    margin: auto;
   }
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 </style>
